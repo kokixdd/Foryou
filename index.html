@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Top Secret Mission</title>
+<style>
+  body {
+    background: #0f111a;
+    color: #0fefb3;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 20px;
+    max-width: 600px;
+    margin: 30px auto;
+  }
+  h1 {
+    text-align: center;
+    color: #0ff;
+  }
+  input, button {
+    background: #111;
+    border: 1px solid #0fefb3;
+    color: #0fefb3;
+    padding: 8px;
+    font-family: monospace;
+    font-size: 1em;
+    margin-top: 10px;
+  }
+  button {
+    cursor: pointer;
+  }
+  .hidden {
+    display: none;
+  }
+  .terminal {
+    background: #000a0a;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    min-height: 120px;
+  }
+  .output {
+    white-space: pre-wrap;
+    line-height: 1.4em;
+  }
+</style>
+</head>
+<body>
+<h1> Top Secret Mission </h1>
+<div id="stage1">
+  <p>SUBJECT PROFILE REDACTED</p>
+  <p>Codenames: “gremlin,” “sleepy menace,” “bug tester”</p>
+  <p>Files secured.</p>
+  <p>Clue 1: <code>01101001</code></p>
+  <p>Hint: Old-school machine language.</p>
+  <input id="input1" type="text" placeholder="Decode binary here" autocomplete="off" />
+  <br />
+  <button onclick="checkStage1()">Submit</button>
+  <p id="error1" style="color:#f33"></p>
+</div>
+
+<div id="stage2" class="hidden">
+  <p>Agent report v2.1.43:</p>
+  <p>Timestamp 0405.1401</p>
+  <p>“I always feel __ when she’s around.”</p>
+  <p>Clue 2: Use Caesar cipher. Shift = 3.</p>
+  <p>Encoded: <code>oryh</code></p>
+  <input id="input2" type="text" placeholder="Decode cipher here" autocomplete="off" />
+  <br />
+  <button onclick="checkStage2()">Submit</button>
+  <p id="error2" style="color:#f33"></p>
+</div>
+
+<div id="stage3" class="hidden">
+  <p>Accessing MEMORY_CORE.zip...</p>
+  <p>🔐 Requires passphrase</p>
+  <p>File names:</p>
+  <ul>
+    <li>04_dino_drawing.png</li>
+    <li>17_purple_shirt_day.jpg</li>
+    <li>23_1AM_call.wav</li>
+    <li>33_birthday_scream.mp3</li>
+  </ul>
+  <p>Hint: Pick the numbers. Then check your texts.</p>
+  <input id="input3" type="text" placeholder="Enter passphrase" autocomplete="off" />
+  <br />
+  <button onclick="checkStage3()">Submit</button>
+  <p id="error3" style="color:#f33"></p>
+</div>
+
+<div id="finalStage" class="hidden terminal">
+  <div class="output" id="finalOutput"></div>
+</div>
+
+<script>
+function checkStage1() {
+  const val = document.getElementById('input1').value.trim().toLowerCase();
+  if(val === 'i') {
+    document.getElementById('error1').textContent = '';
+    document.getElementById('stage1').classList.add('hidden');
+    document.getElementById('stage2').classList.remove('hidden');
+  } else {
+    document.getElementById('error1').textContent = 'Nope, try converting the binary carefully.';
+  }
+}
+
+function checkStage2() {
+  const val = document.getElementById('input2').value.trim().toLowerCase();
+  if(val === 'love') {
+    document.getElementById('error2').textContent = '';
+    document.getElementById('stage2').classList.add('hidden');
+    document.getElementById('stage3').classList.remove('hidden');
+  } else {
+    document.getElementById('error2').textContent = 'Not quite. Remember to shift letters by 3 backwards.';
+  }
+}
+
+function checkStage3() {
+  const val = document.getElementById('input3').value.trim().toLowerCase();
+  if(val === 'you') {
+    document.getElementById('error3').textContent = '';
+    document.getElementById('stage3').classList.add('hidden');
+    showFinalMessage();
+  } else {
+    document.getElementById('error3').textContent = 'Incorrect passphrase. Think about who the mission is about.';
+  }
+}
+
+function showFinalMessage() {
+  document.getElementById('finalStage').classList.remove('hidden');
+  const output = document.getElementById('finalOutput');
+  const message = [
+    'decoding...',
+    'subject identified: [REDACTED]',
+    'emotions detected: [.............]',
+    'cross-referencing files...',
+    '',
+    'Decrypted Successfully.',
+    '',
+    'I',
+    'love',
+    'you.',
+	'',
+    'Always have <3',
+	'',
+    'Im proud of you ❤☺'
+  ];
+  let i = 0;
+  function typeLine() {
+    if(i < message.length) {
+      output.textContent += message[i] + '\n';
+      i++;
+      setTimeout(typeLine, 800);
+    }
+  }
+  typeLine();
+}
+</script>
+</body>
+</html>
