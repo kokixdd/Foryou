@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy National Girlfriend Day ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ff99ac, #d37cfc);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      text-align: center;
+      height: 100vh;
+    }
+    
+    /* MATRIX PHASE STYLES */
+    #countdown {
+      font-size: 8rem;
+      font-weight: bold;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 1;
+      transition: opacity 1s ease;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    #matrixCanvas {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    
+    /* LOVE CARD STYLES */
+    .love-card-container {
+      display: none;
+      background: linear-gradient(135deg, #ffeef8, #f8e8ff);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    
+    .card-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+      padding: 30px;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+    
+    .header h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .content {
+      padding: 30px;
+    }
+    
+    .notice-card {
+      background: linear-gradient(135deg, #ff9dc6, #ffb3d1);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 500;
+      box-shadow: 0 8px 20px rgba(255, 157, 198, 0.3);
+    }
+    
+    .notice-card strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+    
+    .section {
+      background: #fef7ff;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 25px;
+      border: 2px solid #ffe0f0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b9d, #ff8fab);
+    }
+    
+    .section-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8rem;
+      color: #d63384;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .love-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px;
+    }
+    
+    .love-item {
+      background: linear-gradient(135deg, #fff0f6, #ffeef8);
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid #ff6b9d;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .love-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(255, 107, 157, 0.2);
+    }
+    
+    .love-item .emoji {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+    
+    .love-item .text {
+      color: #333;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    
+    .song-item {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .song-item:hover {
+      border-color: #ff6b9d;
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(255, 107, 157, 0.2);
+    }
+    
+    .play-btn {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .play-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+    }
+    
+    .song-info h4 {
+      color: #333;
+      font-size: 1.1rem;
+      margin-bottom: 3px;
+    }
+    
+    .song-info p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .playlist-image {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #ff8a80, #ff5722);
+      border-radius: 12px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      box-shadow: 0 8px 20px rgba(255, 87, 34, 0.3);
+    }
+    
+    .special-message {
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      border: 2px solid #ffcc02;
+      text-align: center;
+      padding: 25px;
+      margin-top: 20px;
+    }
+    
+    .special-message::before {
+      background: linear-gradient(90deg, #ffab00, #ffcc02);
+    }
+    
+    .special-message .section-title {
+      color: #e65100;
+    }
+    
+    /* MUSIC POPUP MODAL */
+    .music-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(40, 40, 40, 0.95);
+      border-radius: 15px;
+      padding: 25px;
+      z-index: 1000;
+      min-width: 400px;
+      max-width: 500px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .music-popup-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .album-art {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    .song-details h3 {
+      color: white;
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+    
+    .song-details p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+    
+    .music-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .control-btn {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+    
+    .play-control {
+      background: white;
+      color: #333;
+      width: 60px;
+      height: 60px;
+      font-size: 1.5rem;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: white;
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+    
+    .time-info {
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.8rem;
+      margin-bottom: 15px;
+    }
+    
+    .service-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    
+    .service-tab {
+      padding: 8px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+    
+    .service-tab.active {
+      background: white;
+      color: #333;
+    }
+    
+    .service-tab:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .player-frame {
+      width: 100%;
+      height: 200px;
+      border: none;
+      border-radius: 10px;
+      margin: 0 0 15px 0;
+      display: none;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .player-frame.active {
+      display: block;
+    }
+    
+    .player-fallback {
+      display: none;
+      text-align: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin: 0 0 15px 0;
+    }
+    
+    .player-fallback.active {
+      display: block;
+    }
+    
+    .fallback-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: white;
+      color: #333;
+      text-decoration: none;
+      border-radius: 25px;
+      margin: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .fallback-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    }
+    
+    .popup-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .popup-btn {
+      padding: 8px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .popup-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .close-popup {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .close-popup:hover {
+      color: white;
+    }
+    
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+    
+    @media (max-width: 768px) {
+      .love-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .content {
+        padding: 20px;
+      }
+      
+      .music-popup {
+        min-width: 90%;
+        max-width: 95%;
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- MATRIX PHASE -->
+  <div id="countdown">3</div>
+  <canvas id="matrixCanvas"></canvas>
+  
+  <!-- LOVE CARD PHASE -->
+  <div class="love-card-container" id="loveCard">
+    <div class="card-container">
+      <div class="header">
+        <h1>La mulți ani de Ziua Națională a Iubitei</h1>
+        <p>Un cadou special creat doar pentru tine ✨</p>
+      </div>
+      
+      <div class="content">
+        <div class="notice-card">
+          <strong>💌 NOTICE:</strong>
+          Cineva care te iubește ția făcut acest cadou!
+        </div>
+        
+        <div class="section">
+          <h2 class="section-title">💕 Things I Love About You</h2>
+          <div class="love-grid">
+            <div class="love-item">
+                <span class="emoji">🌟</span>
+              <div class="text">Ești atât de talentată. Îmi place cum pui suflet în tot ce faci</div>
+            </div>
+            <div class="love-item">
+              <span class="emoji">✨</span>
+              <div class="text">Ești atât de inteligentă și isteață. Îmi place cum gândești în felul tău</div>
+            </div>
+            <div class="love-item">
+              <span class="emoji">💎</span>
+              <div class="text">Ești ciudățică... dar ți-o asumi și asta îmi place la nebunie</div>
+            </div>
+            <div class="love-item">
+              <span class="emoji">🎯</span>
+              <div class="text">Ai atât de multă ambiție și vrei să faci lumea mai bună.</div>
+            </div>
+            <div class="love-item">
+              <span class="emoji">😊</span>
+              <div class="text">Universul a luat notițe când te-a creat. Perfectă și rară.</div>
+            </div>
+            <div class="love-item">
+              <span class="emoji">🎀🏆🎀</span>
+              <div class="text">Dacă aș putea, le-aș da părinților tăi un premiu pentru că au crescut cel mai frumos suflet</div>
+            </div>
+            <div class="love-item">
+              <span class="emoji">🗣️</span>
+              <div class="text">Cum putem vorbi ore întregi despre nimic și totodată despre orice</div>
+            </div>
+            <div class="love-item">
+              <span class="emoji">⭐🌙</span>
+              <div class="text">Jur că stelele sunt geloase când zâmbești</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2 class="section-title">🎵 Cântece care îmi amintesc de tine</h2>
+          <p style="margin-bottom: 20px; color: #666;">Am făcut playlistul ăsta special pentru tine 🎧</p>
+          
+          <div class="playlist-image">🎶</div>
+          
+        <div class="song-item" onclick="openMusicPopup('Perfect', 'Ed Sheeran', 'Melodia asta te descrie perfect', '💕', 'https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v', 'https://youtu.be/2Vv-BfVoq4g')">
+            <div class="play-btn">▶️</div>
+            <div class="song-info">
+                <h4>Perfect</h4>
+                <p>Ed Sheeran • Melodia asta te descrie perfect</p>
+          </div>
+        </div>
+          
+          <div class="song-item" onclick="openMusicPopup('Una Mattina', 'Ludovico Einaudi', 'Sună ca sufletul tău.', '☀️', 'https://open.spotify.com/track/0Dkibk70FDp6t7eOZNemNQ', 'https://youtu.be/j1Ck42-_btY?si=HpowdSHYokCsJ2yb')">
+            <div class="play-btn">▶️</div>
+            <div class="song-info">
+              <h4>Una Mattina</h4>
+              <p>Ludovico Einaudi • Sună ca sufletul tău.</p>
+            </div>
+          </div>
+          
+          <div class="song-item" onclick="openMusicPopup('Jumatatea Mea Mai Buna', '3 Sud Est & Andra', 'Jumătatea mea mai bună, fără dubii', '💫', 'https://open.spotify.com/track/26ej7ltkDI0a5CX7wZSZNf', 'https://youtu.be/kjsSjqTde48?si=CREgSSqO5jDtpAvz&t=167')">
+            <div class="play-btn">▶️</div>
+            <div class="song-info">
+              <h4>Jumatatea Mea Mai Buna</h4>
+              <p>3 Sud Est & Andra • Jumătatea mea mai bună, fără dubii</p>
+            </div>
+          </div>
+          
+          <p style="margin-top: 20px; color: #666; font-style: italic;">
+            Am adunat melodiile care vorbesc despre tine 💝
+          </p>
+        </div>
+        
+        <div class="section special-message">
+          <h2 class="section-title">💌 A Special Note</h2>
+          <p style="line-height: 1.8; color: #333; font-size: 1.1rem;">
+            Știu că lucrurile sau schimbat între noi și nu încerc să schimb nimic sau să complic situația. 
+            Vreau doar să știi că timpul petrecut împreună a fost sincer și frumos, iar tu meriți să fii sărbătorită,
+             nu doar azi, ci mereu. Ești o persoană incredibilă și sper să nu uiți niciodată asta. 💕
+             Îmi pare rău dacă țiam stricat moodul, asta e ultimul lucru pe care mil doresc. 
+             Pur și simplu am simțit că meriți să simți ce înseamnă să fii cu adevărat sărbătorită azi
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MUSIC POPUP -->
+  <div class="popup-overlay" id="popupOverlay" onclick="closeMusicPopup()"></div>
+  <div class="music-popup" id="musicPopup">
+    <button class="close-popup" onclick="closeMusicPopup()">×</button>
+    
+    <div class="music-popup-header">
+      <div class="album-art" id="albumArt">🎵</div>
+      <div class="song-details">
+        <h3 id="popupSongTitle">Song Title</h3>
+        <p id="popupArtist">Artist</p>
+      </div>
+    </div>
+    
+    <div class="service-tabs">
+      <button class="service-tab active" onclick="switchTab('spotify')">🎵 Spotify</button>
+      <button class="service-tab" onclick="switchTab('youtube')">📺 YouTube</button>
+    </div>
+    
+    <!-- Spotify Player -->
+    <iframe id="spotifyFrame" class="player-frame active" src="" frameborder="0" allowtransparency="true" allow="encrypted-media" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    
+    <div id="spotifyFallback" class="player-fallback">
+      <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 15px;">🎵 Listen to this song on Spotify</p>
+      <a class="fallback-btn" id="spotifyFallbackLink" href="#" target="_blank">Open in Spotify</a>
+    </div>
+    
+    <!-- YouTube Player -->
+    <iframe id="youtubeFrame" class="player-frame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    
+    <div id="youtubeFallback" class="player-fallback active">
+      <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 15px;">📺 Watch this song on YouTube</p>
+      <a class="fallback-btn" id="youtubeFallbackLink" href="#" target="_blank">Open in YouTube</a>
+      <br><br>
+      <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem;">Some videos may not be available for embedding due to YouTube's restrictions</p>
+    </div>
+    
+    <div style="margin-top: 15px; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; text-align: center;" id="songMessage">
+      Song message will appear here
+    </div>
+  </div>
+
+  <script>
+    // Matrix phase variables
+    const countdown = document.getElementById('countdown');
+    const matrixCanvas = document.getElementById('matrixCanvas');
+    const loveCard = document.getElementById('loveCard');
+    const ctx = matrixCanvas.getContext('2d');
+    let matrixActive = false;
+    let matrixInterval;
+
+    // Current song data
+    let currentSong = {
+      title: '',
+      artist: '',
+      message: '',
+      spotifyUrl: '',
+      youtubeUrl: ''
+    };
+
+    // Current active tab
+    let currentTab = 'spotify';
+
+    // Countdown logic
+    let count = 3;
+    const timer = setInterval(() => {
+      count--;
+      if (count > 0) {
+        countdown.textContent = count;
+      } else {
+        clearInterval(timer);
+        countdown.style.opacity = '0';
+        setTimeout(() => {
+          countdown.style.display = 'none';
+          startMatrix();
+        }, 1000);
+      }
+    }, 1000);
+
+    // Matrix effect
+    function startMatrix() {
+      matrixCanvas.style.display = 'block';
+      matrixCanvas.width = window.innerWidth;
+      matrixCanvas.height = window.innerHeight;
+      matrixActive = true;
+
+      const randomLetters = '愛LOVE💖✨💕💝01';
+      const message = 'HAPPY GIRLFRIEND DAY';
+      const fontSize = 16;
+      const columns = Math.floor(matrixCanvas.width / fontSize);
+      const drops = Array(columns).fill(1);
+      
+      // Calculate center position for the message
+      const messageStartCol = Math.floor((columns - message.length) / 2);
+      const messageRow = Math.floor(matrixCanvas.height / (fontSize * 2));
+      
+      let messageRevealed = Array(message.length).fill(false);
+      let revealStartTime = Date.now() + 1000; // Start revealing after 1 second
+      let currentRevealIndex = 0;
+
+      function drawMatrix() {
+        ctx.fillStyle = 'rgba(0,0,0,0.05)';
+        ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+        
+        const currentTime = Date.now();
+        
+        // Draw regular matrix rain
+        ctx.fillStyle = '#ffb6c1';
+        ctx.font = fontSize + 'px monospace';
+        
+        for (let i = 0; i < drops.length; i++) {
+          // Skip columns where the message will appear
+          const isMessageColumn = i >= messageStartCol && i < messageStartCol + message.length;
+          const messageCharIndex = i - messageStartCol;
+          
+          if (isMessageColumn && drops[i] >= messageRow - 2 && drops[i] <= messageRow + 2) {
+            // In the message area - handle message reveal
+            if (currentTime > revealStartTime + (messageCharIndex * 300)) {
+              if (!messageRevealed[messageCharIndex]) {
+                messageRevealed[messageCharIndex] = true;
+                currentRevealIndex = Math.max(currentRevealIndex, messageCharIndex + 1);
+              }
+            }
+            
+            if (drops[i] === messageRow && messageRevealed[messageCharIndex]) {
+              // Draw the revealed message character in bright color
+              ctx.fillStyle = '#ff69b4';
+              ctx.font = 'bold ' + (fontSize + 4) + 'px monospace';
+              ctx.fillText(message[messageCharIndex], i * fontSize, drops[i] * fontSize);
+              ctx.fillStyle = '#ffb6c1';
+              ctx.font = fontSize + 'px monospace';
+            } else if (drops[i] === messageRow && !messageRevealed[messageCharIndex]) {
+              // Show random characters in the message position until revealed
+              const randomChar = randomLetters[Math.floor(Math.random() * randomLetters.length)];
+              ctx.fillText(randomChar, i * fontSize, drops[i] * fontSize);
+            } else {
+              // Normal matrix characters around the message area
+              const text = randomLetters[Math.floor(Math.random() * randomLetters.length)];
+              ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            }
+          } else {
+            // Normal matrix rain
+            const text = randomLetters[Math.floor(Math.random() * randomLetters.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          }
+          
+          if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+        
+        // Check if message is fully revealed
+        if (messageRevealed.every(revealed => revealed)) {
+          // Add a glowing effect to the complete message
+          ctx.fillStyle = '#ff1493';
+          ctx.font = 'bold ' + (fontSize + 6) + 'px monospace';
+          ctx.shadowColor = '#ff69b4';
+          ctx.shadowBlur = 4;
+          
+          for (let i = 0; i < message.length; i++) {
+            ctx.fillText(message[i], (messageStartCol + i) * fontSize, messageRow * fontSize);
+          }
+          
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = '#ffb6c1';
+          ctx.font = fontSize + 'px monospace';
+        }
+      }
+      
+      matrixInterval = setInterval(drawMatrix, 50);
+      
+      // Add event listeners for user activity during matrix after a short delay
+      setTimeout(() => {
+        console.log('Adding event listeners for matrix interaction');
+        document.addEventListener('click', handleUserInteraction);
+        document.addEventListener('touchstart', handleUserInteraction);
+        document.addEventListener('keydown', handleUserInteraction);
+      }, 1000);
+    }
+
+    function endMatrix() {
+      if (matrixActive) {
+        matrixActive = false;
+        clearInterval(matrixInterval);
+        matrixCanvas.style.transition = 'opacity 1s ease';
+        matrixCanvas.style.opacity = '0';
+        setTimeout(() => {
+          matrixCanvas.style.display = 'none';
+          document.body.style.overflow = 'auto';
+          loveCard.style.display = 'block';
+          console.log('Love card should be showing now');
+        }, 1000);
+      }
+    }
+
+    function handleUserInteraction(e) {
+      console.log('User interaction detected:', e.type);
+      if (matrixActive) {
+        console.log('Ending matrix due to user interaction');
+        endMatrix();
+        document.removeEventListener('click', handleUserInteraction);
+        document.removeEventListener('touchstart', handleUserInteraction);
+        document.removeEventListener('keydown', handleUserInteraction);
+      }
+    }
+
+    // Music popup functionality
+    function openMusicPopup(title, artist, message, emoji, spotifyUrl, youtubeUrl) {
+      // Store current song data
+      currentSong = {
+        title,
+        artist,
+        message,
+        spotifyUrl,
+        youtubeUrl
+      };
+
+      // Update popup content
+      document.getElementById('popupSongTitle').textContent = title;
+      document.getElementById('popupArtist').textContent = artist;
+      document.getElementById('songMessage').textContent = message;
+      document.getElementById('albumArt').textContent = emoji;
+      
+      // Set up direct links
+      document.getElementById('spotifyFallbackLink').href = spotifyUrl;
+      document.getElementById('youtubeFallbackLink').href = youtubeUrl;
+      
+      // Reset to Spotify tab by default
+      currentTab = 'spotify';
+      switchTab('spotify');
+      
+      // Show popup
+      document.getElementById('popupOverlay').style.display = 'block';
+      document.getElementById('musicPopup').style.display = 'block';
+    }
+
+    function closeMusicPopup() {
+      document.getElementById('popupOverlay').style.display = 'none';
+      document.getElementById('musicPopup').style.display = 'none';
+      
+      // Clear iframe sources to stop playback
+      document.getElementById('spotifyFrame').src = '';
+      document.getElementById('youtubeFrame').src = '';
+    }
+
+    function switchTab(service) {
+      currentTab = service;
+      
+      // Update tab appearance
+      document.querySelectorAll('.service-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`[onclick="switchTab('${service}')"]`).classList.add('active');
+      
+      // Hide all players
+      document.querySelectorAll('.player-frame, .player-fallback').forEach(element => {
+        element.classList.remove('active');
+        element.style.display = 'none';
+      });
+      
+      if (service === 'spotify') {
+        // Show Spotify player
+        const spotifyTrackId = extractSpotifyTrackId(currentSong.spotifyUrl);
+        const spotifyFrame = document.getElementById('spotifyFrame');
+        const spotifyFallback = document.getElementById('spotifyFallback');
+        
+        if (spotifyTrackId) {
+          spotifyFrame.src = `https://open.spotify.com/embed/track/${spotifyTrackId}?utm_source=generator&theme=0&autoplay=0`;
+          spotifyFrame.classList.add('active');
+          spotifyFrame.style.display = 'block';
+          
+          // Check if iframe loads successfully
+          spotifyFrame.onload = () => {
+            spotifyFallback.style.display = 'none';
+          };
+          spotifyFrame.onerror = () => {
+            spotifyFrame.style.display = 'none';
+            spotifyFallback.classList.add('active');
+            spotifyFallback.style.display = 'block';
+          };
+        } else {
+          spotifyFallback.classList.add('active');
+          spotifyFallback.style.display = 'block';
+        }
+        
+      } else if (service === 'youtube') {
+        // Show YouTube player - but default to fallback due to embedding restrictions
+        const youtubeVideoId = extractYouTubeVideoId(currentSong.youtubeUrl);
+        const youtubeFrame = document.getElementById('youtubeFrame');
+        const youtubeFallback = document.getElementById('youtubeFallback');
+        
+        // Most YouTube videos can't be embedded due to restrictions, so show fallback by default
+        youtubeFallback.classList.add('active');
+        youtubeFallback.style.display = 'block';
+        
+        // Still try to embed, but expect it might not work
+        if (youtubeVideoId) {
+          youtubeFrame.src = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=0&rel=0&modestbranding=1`;
+          
+          // Give the iframe a chance to load, then check if it worked
+          setTimeout(() => {
+            youtubeFrame.onload = () => {
+              // If it loads successfully, hide the fallback
+              youtubeFallback.style.display = 'none';
+              youtubeFrame.classList.add('active');
+              youtubeFrame.style.display = 'block';
+            };
+          }, 100);
+        }
+      }
+    }
+
+    function extractSpotifyTrackId(url) {
+      const match = url.match(/track\/([a-zA-Z0-9]+)/);
+      return match ? match[1] : null;
+    }
+
+    function extractYouTubeVideoId(url) {
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+        /youtube\.com\/watch\?.*v=([^&\n?#]+)/
+      ];
+      
+      for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match) return match[1];
+      }
+      return null;
+    }
+
+    // Love item click effects
+    document.querySelectorAll('.love-item').forEach(item => {
+      item.addEventListener('click', function() {
+        this.style.background = 'linear-gradient(135deg, #ff6b9d, #ff8fab)';
+        this.style.color = 'white';
+        setTimeout(() => {
+          this.style.background = 'linear-gradient(135deg, #fff0f6, #ffeef8)';
+          this.style.color = '#333';
+        }, 1000);
+      });
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      if (matrixCanvas.style.display === 'block') {
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+      }
+    });
+  </script>
+</body>
+</html>
